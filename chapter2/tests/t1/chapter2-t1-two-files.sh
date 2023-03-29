@@ -1,3 +1,5 @@
+#!/bin/bash
+
 output=output
 mkdir -p ${output}
 
@@ -5,7 +7,7 @@ mkdir -p ${output}
 # arg1 path
 function createFile {
   local out=./${output}/$1
-  echo $RANDOM | base64 > ${out}
+  head -n 10 /dev/urandom | base64 > ${out}
   chmod 700 ${out}
 }
 
@@ -16,16 +18,18 @@ function getFileName {
 }
 
 # Show file content
+# arg1 path to file
 function showFile {
-  echo ===
   echo $1
+  echo ===
+  cat $1
 }
 
 for i in $*; do
-  if [[ -e $1 ]] 
+  if [[ -e $i ]] 
   then
-    showFile $1
+    showFile $i
   else
-    createFile $(getFileName $1)
+    createFile $(getFileName $i)
   fi
 done
