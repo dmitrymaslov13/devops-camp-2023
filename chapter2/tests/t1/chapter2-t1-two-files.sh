@@ -2,13 +2,8 @@
 
 readonly NUMBER_OF_ARGUMENTS=2
 
-if [[ "$#" -lt ${NUMBER_OF_ARGUMENTS} ]]; then
-  echo "This script requires two arguments to be passed"
-  exit 1
-fi
-
-if [[ "$#" -gt ${NUMBER_OF_ARGUMENTS} ]]; then
-  echo "This script requires two arguments to be passed"
+if [[ "$#" -ne ${NUMBER_OF_ARGUMENTS} ]]; then
+  echo "This script requires two arguments"
   exit 1
 fi
 
@@ -55,6 +50,8 @@ show_file_content() {
   echo "${FILE_PATH}"
   echo "======================="
   cat "${FILE_PATH}"
+  echo "EOF"
+  echo ""
 }
 
 mkdir -p ${OUTPUT_FOLDER_PATH}
