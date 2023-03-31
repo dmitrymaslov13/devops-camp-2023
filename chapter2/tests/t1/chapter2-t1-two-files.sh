@@ -1,13 +1,27 @@
 #!/bin/bash
 
+readonly NUMBER_OF_ARGUMENTS=2
+
+if [[ "$#" -lt ${NUMBER_OF_ARGUMENTS} ]]; then
+  echo "This script requires two arguments to be passed"
+  exit 1
+fi
+
+if [[ "$#" -gt ${NUMBER_OF_ARGUMENTS} ]]; then
+  echo "This script requires two arguments to be passed"
+  exit 1
+fi
+
 # Constants
-readonly OUTPUT_FOLDER_PATH="./output"
-readonly PATHS=("$@")
+readonly OUTPUT_FOLDER_PATH="./"
+readonly PATHS="$*"
 
 ########################################
-# Create file with random base64 string .
+# Create file with random base64 string in output foled path
+# Globals:
+#   OUTPUT_FOLDER_PATH
 # Arguments:
-#   Path to file.
+#   File name.
 # Returns:
 #   None
 ########################################
@@ -45,11 +59,15 @@ show_file_content() {
 
 mkdir -p ${OUTPUT_FOLDER_PATH}
 
-for file_path in ${#PATHS[@]}; do
-  get_file_name "${file_path}"
-  if [[ -e ${file_path} ]]; then
-    show_file_content "${file_path}"
+for path in ${PATHS}; do
+  if [[ -d ${path} ]]; then
+    echo "${path} - it's a directory"
+    continue 
+  fi
+
+  if [[ -f ${path} ]]; then
+    show_file_content "${path}"
   else
-    create_file "$(getFileName "${file_path}")"
+    create_file $(get_file_name "${path}")
   fi
 done
