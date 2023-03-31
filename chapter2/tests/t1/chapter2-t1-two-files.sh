@@ -1,13 +1,7 @@
 #!/bin/bash
 
-readonly NUMBER_OF_ARGUMENTS=2
-
-if [[ "$#" -ne ${NUMBER_OF_ARGUMENTS} ]]; then
-  echo "This script requires two arguments"
-  exit 1
-fi
-
 # Constants
+readonly NUMBER_OF_ARGUMENTS=2
 readonly OUTPUT_FOLDER_PATH="./"
 readonly PATHS="$*"
 
@@ -53,6 +47,11 @@ show_file_content() {
   echo "EOF"
   echo ""
 }
+
+if [[ "$#" -ne ${NUMBER_OF_ARGUMENTS} ]]; then
+  echo "This script requires two arguments"
+  exit 1
+fi
 
 mkdir -p ${OUTPUT_FOLDER_PATH}
 
