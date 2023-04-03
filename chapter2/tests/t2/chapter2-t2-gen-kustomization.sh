@@ -28,8 +28,8 @@ clean_workspace() {
 #   Writes repo secret to stdout
 ########################################
 generate_repo_secret() {
-local configuration_name="$1"
-cat <<EOF
+  local configuration_name="$1"
+  cat <<EOF
   - name: $configuration_name
     namespace: argo-cd
     options:
