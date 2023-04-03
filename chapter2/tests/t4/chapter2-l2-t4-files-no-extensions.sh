@@ -1,6 +1,9 @@
 #!/bin/bash
 
+IFS=$'\n'
 readonly DIRECTORY_PATH="$1"
 readonly FILES=( $( find "${DIRECTORY_PATH}" -type f ) )
 
-echo "${FILES[@]%.*}" | tr " " "\n" 
+for file in "${FILES[@]}"; do
+  echo "${file%.*}"
+done
