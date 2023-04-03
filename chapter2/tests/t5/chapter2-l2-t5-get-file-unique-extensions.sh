@@ -25,4 +25,4 @@ get_file_extenstion() {
   for file_path in ${FILE_NAMES}; do
     get_file_extenstion "${file_path}"
   done
-) | uniq
+) | sort -u
