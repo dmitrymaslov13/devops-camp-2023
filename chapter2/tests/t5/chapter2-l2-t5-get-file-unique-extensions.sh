@@ -6,7 +6,7 @@ readonly FILE_PATHES=( $( find "${DIRECTORY_PATH}" -type f ) )
 readonly FILE_NAMES="${FILE_PATHES[*]##*/}"
 
 ###################################################
-# Get file name without extenstion
+# Get file name without extension
 # Globals:
 #   None
 # Arguments:
