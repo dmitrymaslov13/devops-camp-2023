@@ -3,7 +3,8 @@
 # Constants
 readonly WORKSPACE_DIR="./repos"
 readonly KUSTOMIZATION_FILE_PATH="./${WORKSPACE_DIR}/kustomization.yaml"
-readonly CONFIGURATION_NAMES=( "$@" )
+readonly REPO_NAMES=( "$@" )
+readonly VALID_REPO_REGEXP="^([0-9]|[a-z]|-|\.)*$"
 
 ########################################
 # Clears the workspace folder
@@ -46,14 +47,14 @@ EOF
 }
 
 #################################################
-# Generate kustomiztion file.
+# Generate kustomization file.
 # Globals:
 #   CONFIGURATION NAMES
 #   KUSTOMIZATION_FILE_PATH
 # Arguments:
 #   None
 # Outputs:
-#   Writes to kustomiation file generated config
+#   Writes to kustomization file generated config
 #################################################
 generate_kustomization_file() {
   cat <<EOF > "${KUSTOMIZATION_FILE_PATH}"
@@ -64,13 +65,19 @@ generatorOptions:
 secretGenerator:
 EOF
 
-  for configuration_name in "${CONFIGURATION_NAMES[@]}"; do
+  for configuration_name in "${REPO_NAMES[@]}"; do
+
+    if [[ ! "${configuration_name}" =~ $VALID_REPO_REGEXP ]]; then
+      echo "Invalid name '${configuration_name}'" >&2
+      continue
+    fi
+
     ssh-keygen -t ed25519 -N '' -f "${WORKSPACE_DIR}/${configuration_name}-deploy-key.pem" > /dev/null
     generate_repo_secret "${configuration_name}" >> "${KUSTOMIZATION_FILE_PATH}"
   done
 }
 
-if [[ ${#CONFIGURATION_NAMES[@]} -eq 0 ]]; then
+if [[ ${#REPO_NAMES[@]} -eq 0 ]]; then
   echo "No arguments passed. You need to pass at least 1 argument to proceed with the script."
   exit 0
 fi
