@@ -1,9 +1,7 @@
 #!/bin/bash
-
 # Constants
 readonly NUMBER_OF_ARGUMENTS=2
 readonly OUTPUT_FOLDER_PATH="./"
-readonly PATHS="$*"
 
 ########################################
 # Create file with random base64 string in output foled path
@@ -15,7 +13,7 @@ readonly PATHS="$*"
 #   None
 ########################################
 function create_file {
-  declare -r OUTPUT_FILE_PATH="./${OUTPUT_FOLDER_PATH}/$1"
+  declare -r OUTPUT_FILE_PATH="./${OUTPUT_FOLDER_PATH}/$*"
   head -n 10 /dev/urandom | base64 > "${OUTPUT_FILE_PATH}"
   chmod 700 "${OUTPUT_FILE_PATH}"
 }
@@ -49,13 +47,13 @@ show_file_content() {
 }
 
 if [[ "$#" -ne ${NUMBER_OF_ARGUMENTS} ]]; then
-  echo "This script requires two arguments"
+  echo "This script requires ${NUMBER_OF_ARGUMENTS} arguments"
   exit 1
 fi
 
 mkdir -p ${OUTPUT_FOLDER_PATH}
 
-for path in ${PATHS}; do
+for path in "$@"; do
   if [[ -d ${path} ]]; then
     echo "${path} - it's a directory"
     continue 
