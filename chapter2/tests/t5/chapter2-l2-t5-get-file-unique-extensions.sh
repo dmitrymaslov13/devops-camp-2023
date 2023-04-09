@@ -2,11 +2,10 @@
 
 IFS=$'\n'
 readonly DIRECTORY_PATH="$1"
-readonly FILE_PATHES=( $( find "${DIRECTORY_PATH}" -type f ) )
-readonly FILE_NAMES="${FILE_PATHES[*]##*/}"
+readonly FILE_PATHES=$(find "${DIRECTORY_PATH}" -type f)
 
 ###################################################
-# Get file name without extension
+# Get file name without extenstion
 # Globals:
 #   None
 # Arguments:
@@ -21,8 +20,6 @@ get_file_extenstion() {
   fi
 }
 
-(
-  for file_path in ${FILE_NAMES}; do
-    get_file_extenstion "${file_path}"
-  done
-) | sort -u
+for file_path in ${FILE_PATHES}; do
+  get_file_extenstion "${file_path##/*}"
+done | uniq
