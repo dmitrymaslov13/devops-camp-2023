@@ -2,8 +2,7 @@
 
 IFS=$'\n'
 readonly DIRECTORY_PATH="$1"
-readonly FILE_PATHES=( $( find "${DIRECTORY_PATH}" -type f ) )
-readonly FILE_NAMES="${FILE_PATHES[*]##*/}"
+readonly FILE_PATHES=$(find "${DIRECTORY_PATH}" -type f)
 
 ###################################################
 # Get file name without extenstion
@@ -15,14 +14,12 @@ readonly FILE_NAMES="${FILE_PATHES[*]##*/}"
 #   Writes file name without extenstion to stdout
 ###################################################
 get_file_extenstion() {
-  local file_name="${1}" 
+  local file_name="${1}"
   if [[ "${file_name: 0 : 1 }" != "." && ${file_name} == *.*  ]]; then
-    echo "${file_name##*.}"
+    echo "${file_name#*.}"
   fi
 }
 
-(
-  for file_path in ${FILE_NAMES}; do
-    get_file_extenstion "${file_path}"
-  done
-) | uniq
+for file_path in ${FILE_PATHES}; do
+  get_file_extenstion "${file_path##*/}"
+done | uniq
