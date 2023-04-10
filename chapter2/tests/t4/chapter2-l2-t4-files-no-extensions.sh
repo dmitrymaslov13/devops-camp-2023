@@ -16,6 +16,7 @@ readonly FILE_PATHES=$(find "${DIRECTORY_PATH}" -type f)
 ###################################################
 get_file_name_without_extenstion() {
   local file_name="${1}" 
+  # We do this in order to exclude the removal of dotfiles
   local file_name_without_first_symbol="${file_name: 1 : ${#file_name} }"
   echo "${file_name: 0: 1}${file_name_without_first_symbol%%.*}"
 }
