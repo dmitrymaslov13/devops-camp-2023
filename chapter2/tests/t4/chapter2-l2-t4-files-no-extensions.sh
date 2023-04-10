@@ -22,6 +22,6 @@ get_file_name_without_extenstion() {
 
 for file_path in $FILE_PATHES; do
   file_dir="${file_path%/*}"
-  file_name=${file_path##*/}
+  file_name="${file_path##*/}"
   echo "${file_dir}/$( get_file_name_without_extenstion "${file_name}" )"
 done
