@@ -2,8 +2,8 @@
 
 mkdir -p ssl
 cd ssl
-mkcert camp-python.local localhost 127.0.0.1 ::1
-mkcert camp-php.local localhost 127.0.0.1 ::1
+mkcert camp-python.local
+mkcert camp-php.local
 
 cd -
 mkdir -p logs
