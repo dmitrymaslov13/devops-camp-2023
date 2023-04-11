@@ -16,10 +16,11 @@ readonly FILE_PATHES=$(find "${DIRECTORY_PATH}" -type f)
 get_file_extenstion() {
   local file_name="${1}" 
   if [[ "${file_name: 0 : 1 }" != "." && ${file_name} == *.*  ]]; then
-    echo "${file_name##*.}"
+    echo "${file_name#*.}"
   fi
 }
 
 for file_path in ${FILE_PATHES}; do
   get_file_extenstion "${file_path##/*}"
-done | uniq
+done | sort -u
+
