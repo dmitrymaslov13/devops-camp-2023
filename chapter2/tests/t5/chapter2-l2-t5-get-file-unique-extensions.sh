@@ -22,4 +22,3 @@ get_file_extenstion() {
 for file_path in ${FILE_PATHES}; do
   get_file_extenstion "${file_path##*/}"
 done | sort -u
-
