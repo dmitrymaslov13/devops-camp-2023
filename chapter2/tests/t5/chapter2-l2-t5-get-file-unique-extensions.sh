@@ -14,13 +14,12 @@ readonly FILE_PATHES=$(find "${DIRECTORY_PATH}" -type f)
 #   Writes file name without extenstion to stdout
 ###################################################
 get_file_extenstion() {
-  local file_name="${1}" 
-  if [[ "${file_name: 0 : 1 }" != "." && ${file_name} == *.*  ]]; then
-    echo "${file_name#*.}"
-  fi
+  local file_name="${1}"
+  local file_without_first_symbol="${file_name: 1 }" 
+  echo "${file_without_first_symbol#*.}"
 }
 
 for file_path in ${FILE_PATHES}; do
-  get_file_extenstion "${file_path##/*}"
+  get_file_extenstion "${file_path##*/}"
 done | sort -u
 
