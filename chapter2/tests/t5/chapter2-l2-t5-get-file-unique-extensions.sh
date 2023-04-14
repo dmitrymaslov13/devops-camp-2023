@@ -15,8 +15,20 @@ readonly FILE_PATHES=$(find "${DIRECTORY_PATH}" -type f)
 ###################################################
 get_file_extenstion() {
   local file_name="${1}"
+
+  if [[ "${file_name}" != *.* ]]; then
+    return 0
+  fi
+
+  if [[ "${file_name: 0 : 1}" != "." ]]; then
+    echo "${file_name#*.}"
+  fi
+
   local file_without_first_symbol="${file_name: 1 }" 
-  echo "${file_without_first_symbol#*.}"
+
+  if [[ ${file_without_first_symbol} == *.* ]]; then
+    echo "${file_without_first_symbol#*.}"
+  fi
 }
 
 for file_path in ${FILE_PATHES}; do
