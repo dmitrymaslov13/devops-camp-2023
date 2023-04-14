@@ -22,8 +22,9 @@ get_file_extenstion() {
 
   if [[ "${file_name: 0 : 1}" != "." ]]; then
     echo "${file_name#*.}"
+    return 1
   fi
-
+  
   local file_without_first_symbol="${file_name: 1 }" 
 
   if [[ ${file_without_first_symbol} == *.* ]]; then
