@@ -25,10 +25,10 @@ get_file_extenstion() {
     return 1
   fi
   
-  local file_without_first_symbol="${file_name: 1 }" 
+  local dotfile_name_without_first_dot="${file_name: 1 }" 
 
-  if [[ ${file_without_first_symbol} == *.* ]]; then
-    echo "${file_without_first_symbol#*.}"
+  if [[ ${dotfile_name_without_first_dot} == *.* ]]; then
+    echo "${dotfile_name_without_first_dot#*.}"
   fi
 }
 
