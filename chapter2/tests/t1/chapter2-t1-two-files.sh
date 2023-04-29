@@ -1,4 +1,10 @@
 #!/bin/bash
+
+# Script accepts two arguments with filenames.
+# script should verify if those files exists and if so - output the content of these files, otherwise
+# it should create these files in a local directory with rwx------ permission set
+# each file should contain a random string encoded in base64 format.
+
 # Constants
 readonly NUMBER_OF_ARGUMENTS=2
 readonly OUTPUT_FOLDER_PATH="./"
