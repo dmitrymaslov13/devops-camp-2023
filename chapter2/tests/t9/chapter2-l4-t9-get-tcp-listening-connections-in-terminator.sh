@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Script listen tcp listening connections and if tcp connection exits then
+# send to all zshs with adress and port
+
 readonly PORT_START=10000
 readonly PORT_END=10100
 readonly HEADER="Local Address:Port   Peer Address:Port"
@@ -45,15 +48,16 @@ while true; do
   active_connections=$(get_active_tcp_listening_connections)
   new_connections=$(comm -13 <(echo "${registered_active_connections}" | sort) <(echo "${active_connections}" | sort))
   registered_active_connections="${active_connections}"
-  
-  if [[ -n "${new_zsh_pids}" ]]; then
+
+  if [[ -n "${new_connections}" ]]; then
+    send_message_to_zshs "${HEADER}" "${registered_zsh_pids}"
+    send_message_to_zshs "${new_connections}" "${registered_zsh_pids}"
+  fi
+
+  if [[ -n "${new_zsh_pids}"  ]] && [[ -n "${registered_active_connections}" ]] ; then
     send_message_to_zshs "" "${new_zsh_pids}"
     send_message_to_zshs "${HEADER}" "${new_zsh_pids}"
     send_message_to_zshs "${registered_active_connections}" "${new_zsh_pids}"
-  fi
-
-  if [[ -n "${new_connections}" ]]; then
-    send_message_to_zshs "${new_connections}" "${registered_zsh_pids}"
   fi
 
   registered_zsh_pids="${active_zsh_pids}"
