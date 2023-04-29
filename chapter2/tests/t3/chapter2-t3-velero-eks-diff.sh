@@ -14,8 +14,8 @@ readonly KUBE_NAMESPACES_URL='https://gist.githubusercontent.com/dmitry-mightyde
 #   Included namespaces
 #########################################
 get_included_namespaces_from_backup() {
-  local backup="${1}"
-  echo "${backup}"| yq ".spec.source.helm.values" -r | yq ".schedules[].template.includedNamespaces[]" -r
+  local -r backup="${1}"
+  echo "${backup}" | yq ".spec.source.helm.values" -r | yq ".schedules[].template.includedNamespaces[]" -r
 }
 
 ###############################################
@@ -26,8 +26,9 @@ get_included_namespaces_from_backup() {
 #   Fetch result or or terminates the script 
 ###############################################
 fetch_data() {
-  local url="$1"
-  local response_status=$(curl -I --silent "${url}" | head -n 1 | cut -d' ' -f2)
+  local -r url="$1"
+  local response_status
+  response_status=$(curl -I --silent "${url}" | head -n 1 | cut -d' ' -f2)
 
   if [[ "${response_status}" != 200 ]]; then
     echo "Fetch error. Url with problem: ${url}. Status code:${response_status}" >&2;
@@ -37,9 +38,9 @@ fetch_data() {
   curl --silent "${url}"
 }
 
-backup_manifest=$(fetch_data "${BACKUP_MANIFEST_URL}" )
-namespaces_from_backup=$( get_included_namespaces_from_backup "${backup_manifest}" )
+backup_manifest=$(fetch_data "${BACKUP_MANIFEST_URL}")
+namespaces_from_backup=$(get_included_namespaces_from_backup "${backup_manifest}")
 
 kube_namespaces=$(fetch_data "${KUBE_NAMESPACES_URL}")
 
-comm -13 <( echo "${namespaces_from_backup}" | sort -u) <( echo "${kube_namespaces}" | sort -u) 
+comm -13 <(echo "${namespaces_from_backup}" | sort -u) <(echo "${kube_namespaces}" | sort -u) 
