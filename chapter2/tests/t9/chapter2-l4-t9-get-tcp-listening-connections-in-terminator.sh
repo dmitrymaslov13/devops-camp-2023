@@ -2,6 +2,7 @@
 
 readonly PORT_START=10000
 readonly PORT_END=10100
+readonly HEADER="Local Address:Port   Peer Address:Port"
 
 # Get active zsh pids
 # Output:
@@ -24,9 +25,14 @@ send_message_to_zshs() {
   done
 }
 
+# Get active tcp listening connections
+# Global:
+#    PORT_START
+#    PORT_END
+# Output:
+#    Active tcp listening connections 
 get_active_tcp_listening_connections() {
-  # TODO: Add print formatter
-  ss -ltn "( sport >= ${PORT_START} && sport <= ${PORT_END} )" --no-header
+  ss -ltn "( sport >= ${PORT_START} && sport <= ${PORT_END} )" --no-header | awk '{ printf "%-20s %-20s\n", $4, $5 }'
 }
 
 registered_zsh_pids=""
@@ -41,12 +47,12 @@ while true; do
   registered_active_connections="${active_connections}"
   
   if [[ -n "${new_zsh_pids}" ]]; then
-    # TODO: Add print header
+    send_message_to_zshs "" "${new_zsh_pids}"
+    send_message_to_zshs "${HEADER}" "${new_zsh_pids}"
     send_message_to_zshs "${registered_active_connections}" "${new_zsh_pids}"
   fi
 
   if [[ -n "${new_connections}" ]]; then
-    echo 'hello'
     send_message_to_zshs "${new_connections}" "${registered_zsh_pids}"
   fi
 
