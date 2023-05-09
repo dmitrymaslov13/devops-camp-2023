@@ -1,7 +1,7 @@
 #!/bin/bash
 set -eou pipefail
 
-TEMP_PATH="/tmp/nginx/t11"
+TEMP_PATH="/tmp/nginx/"
 
 if [[ ! -e "$(pwd)/.ssl" ]]; then
   echo "Generate SSL..."
@@ -12,9 +12,8 @@ if [[ ! -e "$(pwd)/.ssl" ]]; then
 fi
 
 sudo rm -rf "${TEMP_PATH}"
-
-sudo mkdir "${TEMP_PATH}"
-sudo cp -r src "${TEMP_PATH}/src"
+sudo mkdir -p "${TEMP_PATH}"
+sudo cp -r src/* "${TEMP_PATH}"
 sudo chown nginx:nginx -R "${TEMP_PATH}"
 
 sudo mkdir -p /var/run/php-fpm
