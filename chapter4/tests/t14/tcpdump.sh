@@ -1,4 +1,5 @@
 #!/bin/bash
+# This script starts the nginx container and the tcpdump container listening on the first container
 set -eou pipefail
 
 readonly CONTAINER_NAME="t14-nginx"
